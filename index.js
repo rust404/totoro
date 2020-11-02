@@ -144,17 +144,20 @@ class Engine {
   start() {
     clearInterval(this.timer)
     this.timer = setInterval(() => {
-      const str = this.read()
-      if (str === undefined) {
+      if (this.isFinished()) {
         this.stop()
         return
       }
+      const str = this.read()
       const curContent = this.styleContent.slice(0, this.position)
       this.codeContainer.innerHTML = curContent
       this.styleContainer.innerHTML = curContent
       hljs.highlightBlock(this.codeContainer);
       this.codePanel.scrollTo(0, 999999)
     }, this.gap)
+  }
+  isFinished() {
+    return this.position > this.styleContent.length
   }
   stop() {
     clearInterval(this.timer)
